@@ -43,6 +43,7 @@ proyecto-virus-molon/
 │
 ├── docs/
 │   ├── informe.md
+│   ├── reporte.md
 │   ├── ethical_limitations.md
 │   └── run_instructions.md
 │
@@ -239,7 +240,11 @@ Es completamente inofensiva y no almacena datos.
 
 ### **📝 informe.md**
 
-Versión imprimible del reporte.
+Informe del proyecto.
+
+### **📝 reporte.md**
+
+Versión imprimible del reporte del proyecto (este documento).
 
 ### **⚖️ ethical_limitations.md**
 
