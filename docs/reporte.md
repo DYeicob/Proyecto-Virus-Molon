@@ -1,347 +1,113 @@
-# 📄 **REPORTE COMPLETO DEL PROYECTO – *proyecto-virus-molon***
+# 📄 **FULL PROJECT REPORT – *molon-virus-project***
 
-## 🧩 **1. Introducción**
+## 🧩 **1. Introduction**
 
-Este proyecto es una **simulación educativa** inspirada en el funcionamiento real de un malware modular, pero implementado estrictamente con **acciones seguras, controladas e inofensivas**.
-Su propósito es **aprender técnicas de ciberseguridad ofensiva y defensiva**, así como demostrar:
+This project is an **educational simulation** inspired by the architecture of real modular malware. It is implemented strictly using **safe, controlled, and harmless actions**.
+Its purpose is to **study offensive and defensive cybersecurity techniques**, demonstrating:
 
-* Arquitectura modular de un agente malicioso.
-* Comunicación con un servidor C2 (Command & Control).
-* Técnicas comunes como persistencia, infección, fileless execution, ransomware fake, propagación, phishing visual, etc.
-* Cómo se detectan y mitigan en la vida real.
+* The modular architecture of a malicious agent.
+* Command & Control (C2) infrastructure and communication.
+* Common techniques such as persistence, infection emulation, fileless execution, mock ransomware, propagation, and social engineering.
+* Real-world detection and mitigation strategies.
 
-Ningún componente ejecuta acciones dañinas.
-Todo el proyecto está pensado para ser ejecutado en una **máquina virtual** con fines académicos.
+No component executes harmful actions. The project is designed to be executed in an **isolated virtual machine** for academic purposes.
 
 ---
 
-# 🗂️ **2. Estructura del proyecto**
+# 🗂️ **2. Project Structure**
 
-```
-proyecto-virus-molon/
+```text
+molon-virus-project/
 │
 ├── src/
-│   ├── agent.py
-│   ├── migration_sim.py
-│   ├── fileless_sim.py
-│   ├── persistence.py
-│   ├── propagation.py
-│   ├── c2_client.py
-│   ├── killswitch.py
-│   ├── payloads.py
-│   └── utils.py
+│   ├── agent.py            # Main orchestrator
+│   ├── migration_sim.py    # Process enumeration logic
+│   ├── fileless_sim.py     # LOLBAS emulation
+│   ├── persistence.py      # Harmless persistence (Scheduled Tasks)
+│   ├── propagation.py      # USB discovery logic
+│   ├── c2_client.py        # Beaconing & Polling logic
+│   ├── killswitch.py       # Emergency stop mechanism
+│   ├── payloads.py         # Benign actions (Rickroll, Popups)
+│   └── utils.py            # Logging & timestamp utilities
 │
 ├── server_c2/
-│   ├── server.py
+│   ├── server.py           # Flask-based C2 Dashboard
 │   └── requirements.txt
 │
 ├── phishing_demo/
-│   ├── email.html
-│   └── web_cringe/
-│       ├── index.html
-│       └── style.css
+│   ├── email.html          # Social engineering lure
+│   └── web_cringe/         # Mock credential harvesting page
 │
-├── docs/
-│   ├── informe.md
-│   ├── reporte.md
+├── docs/                   # Full English Documentation
+│   ├── report.md
 │   ├── ethical_limitations.md
 │   └── run_instructions.md
 │
-├── tests/
+├── tests/                  # Integrity & Logic testing
 │   ├── test_killswitch.py
 │   └── test_c2.py
-│
-├── .gitignore
-├── LICENSE
-├── README.md
-├── instrucciones_virus.txt 
-└── requirements.txt
-```
-
----
-
-# 🧪 **3. Descripción detallada de cada módulo**
-
----
-
-## **3.1. /src — Código del agente simulado**
-
----
-
-### ### **🧠 agent.py — Agente principal del “virus” simulado**
-
-Coordina todo el funcionamiento:
-
-* Carga cada módulo.
-* Envía beacon al C2 cada X segundos.
-* Ejecuta órdenes benignas recibidas del servidor.
-* Verifica el *killswitch*.
-* Escribe logs en `utils.py`.
-
-Simula el comportamiento de un malware modular real sin afectar el sistema.
-
----
-
-### **🔀 migration_sim.py — Simulación de “infección” o migración**
-
-Explica cómo un malware real saltaría entre procesos.
-
-Pero en esta simulación:
-
-* Solo enumera procesos.
-* Imita la selección de un proceso “objetivo”.
-* Simula la “migración” escribiendo un mensaje en logs.
-
----
-
-### **🧬 fileless_sim.py — Simulación de ejecución fileless (LOLBAS benigno)**
-
-Imita el estilo de malware fileless:
-
-* Ejecuta comandos inocuos.
-* Jamás escribe archivos en áreas críticas.
-* Solo demuestra la técnica de “ejecución en memoria”.
-
-Ejemplo usado: ejecutar PowerShell o bash con `echo`.
-
----
-
-### **📌 persistence.py — Persistencia simulada**
-
-Simula agregar persistencia:
-
-* En Windows: tarea programada ficticia.
-* En Linux: entrada simulada en `.bashrc`.
-
-No modifica el sistema real.
-Solo escribe registros y muestra cómo sería el ataque.
-
----
-
-### **🔗 propagation.py — Propagación a USB simulada**
-
-Enumeración de volúmenes (Windows/Linux)
-Crea **un archivo inocuo** como mecanismo demostrativo.
-
-Nunca copia binarios ni intenta auto-replicarse.
-
----
-
-### **📡 c2_client.py — Comunicación con el servidor C2**
-
-Implementa:
-
-* Beacon periódico.
-* Petición de comandos al servidor Flask.
-* Ejecución de tareas seguras:
-
-  * mostrar un popup
-  * imprimir un mensaje
-  * ejecutar rickroll
-  * simular cifrado fake
-
----
-
-### **🛑 killswitch.py — Parada de emergencia**
-
-Busca un archivo llamado:
 
 ```
-stop.txt
-```
-
-Si existe:
-
-* Apaga el agente.
-* Notifica al servidor.
-* Escribe un log.
-
-Demuestra cómo un malware real puede incluir desactivación remota.
 
 ---
 
-### **🎉 payloads.py — “Payloads” seguros y divertidos**
+# 🧪 **3. Detailed Module Description**
 
-Incluye:
+### **🧠 agent.py — Main Orchestrator**
 
-* Rickroll (abre YouTube)
-* Popup
-* Cambiar fondo *simulado*
-* Mensaje de terminal
-* Falso ransomware educativo (NO cifra nada)
+Coordinates the entire lifecycle: loads modules, sends beacons to the C2, executes benign instructions, and constantly verifies the *killswitch* status.
 
----
+### **🔀 migration_sim.py — Process Migration Emulation**
 
-### **🧰 utils.py — Utilidades y logs**
+Demonstrates how malware "jumps" between processes. It enumerates running tasks (like `explorer.exe`) and logs which process would be targeted for injection in a real scenario.
 
-Proporciona:
+### **🧬 fileless_sim.py — Fileless Execution (Benign LOLBAS)**
 
-* Función de logging.
-* Timestamps.
-* Captura de errores.
-* Estructura común usada por todo el agente.
+Mimics fileless malware by executing commands directly through system shells (PowerShell/Bash) without writing malicious binaries to disk.
 
----
+### **📌 persistence.py — Persistence Simulation**
 
-## **3.2. /server_c2 — Servidor de Comando y Control**
+Implements visible and reversible persistence mechanisms (Scheduled Tasks on Windows or `.bashrc` entries on Linux) to demonstrate how threats survive reboots.
 
----
+### **🔗 propagation.py — Simulated USB Propagation**
 
-### **🖥️ server.py — C2 con Flask**
+Identifies connected volumes and creates a **harmless text file** to illustrate how worms move laterally through removable media.
 
-Incluye:
+### **📡 c2_client.py — Command & Control Communication**
 
-* Panel web simple.
-* Últimos agentes conectados.
-* Enviar comandos benignos.
-* Ver logs del agente.
-* Modo killswitch.
+Handles periodic beacons and polls the Flask server for tasks such as displaying alerts, triggering the Rickroll, or simulating educational ransomware.
 
-Todo el C2 es local y seguro.
+### **🛑 killswitch.py — Emergency Stop**
+
+Monitors for a specific file (`stop.txt`). If detected, it immediately terminates the agent, demonstrating how researchers can neutralize global threats.
 
 ---
 
-### **📦 requirements.txt**
+## **3.2. /server_c2 — Command and Control Server**
 
-Librerías necesarias para ejecutar el servidor.
+### **🖥️ server.py — Flask C2**
 
----
-
-## **3.3. /phishing_demo — Material educativo de phishing**
+A centralized dashboard to monitor connected agents, deploy benign commands, and review execution logs in real-time.
 
 ---
 
-### **📧 email.html — Email ridículo de phishing**
+## **3.3. /phishing_demo — Social Engineering Assets**
 
-Un correo humorístico que simula un phishing pésimo a propósito.
-Contiene un enlace a un archivo inocuo (o simplemente una frase clicable).
+### **📧 email.html & 🌐 web_cringe/**
 
-Sirve para explicar:
-
-* Ingeniería social.
-* Elementos visuales sospechosos.
-* Errores típicos.
-
-### **🌐 web_cringe/**
-
-Página web extremadamente cutre que simula:
-
-* Formularios falsos.
-* Robos de credenciales ficticios.
-* Colores chillones y mala UX.
-
-Es completamente inofensiva y no almacena datos.
+Mock assets designed to teach users how to identify suspicious links, poor UX, and psychological triggers used in phishing campaigns.
 
 ---
 
-## **3.4. /docs — Documentación del proyecto**
+# 🛡️ **4. Ethical Safeguards & Risks**
+
+To ensure total safety, the project **DOES NOT include:**
+❌ Real encryption | ❌ Vulnerability exploits | ❌ Privilege escalation | ❌ Real process injection | ❌ Destructive payloads | ❌ Data exfiltration.
+
+Everything is designed following **Academic Best Practices** and **Ethical Hacking Codes of Conduct**.
 
 ---
 
-### **📝 informe.md**
+# 📦 **5. Conclusion**
 
-Informe del proyecto.
-
-### **📝 reporte.md**
-
-Versión imprimible del reporte del proyecto (este documento).
-
-### **⚖️ ethical_limitations.md**
-
-Documento que explica:
-
-* Qué técnicas se omitieron por seguridad.
-* Por qué no se implementó nada peligroso.
-* Separación entre simulación (“proof of concept”) y malware real.
-
-### **⚙️ run_instructions.md**
-
-Instrucciones para:
-
-* Ejecutar en VM
-* Probar módulo por módulo
-* Activar el C2
-* Desactivar el agente
-* Limpiar el entorno
-
----
-
-## **3.5. /tests — Pruebas unitarias**
-
----
-
-### **test_killswitch.py**
-
-Prueba que el agente:
-
-* Detecta `stop.txt`
-* Se apaga correctamente
-* No ejecuta payloads tras la desactivación
-
-### **test_c2.py**
-
-Prueba:
-
-* Que el servidor devuelve comandos
-* Que el cliente los interpreta
-* Que la comunicación responde correctamente
-
----
-
-# 📄 **4. Flujo de ejecución del proyecto**
-
-1. Se lanza el servidor C2 (`python server.py`).
-2. El agente se inicia (`python agent.py`).
-3. El agente:
-
-   * envía beacon
-   * recibe comandos
-   * registra actividad
-4. El profesor o alumno envía un comando desde el panel:
-
-   * popup
-   * mensaje
-   * rickroll
-   * ransomware simulado
-5. El agente ejecuta el payload.
-6. Si se crea `stop.txt`, el malware simulado se apaga.
-
----
-
-# 🛡️ **5. Riesgos y medidas éticas**
-
-El proyecto **NO incluye:**
-
-❌ cifrado real
-❌ explotación de vulnerabilidades
-❌ escalada de privilegios
-❌ inyección real en procesos
-❌ persistencia real
-❌ propagación real a dispositivos USB
-❌ robo de datos
-❌ cargas maliciosas auténticas
-
-Todo está diseñado siguiendo:
-
-* Buenas prácticas académicas.
-* Ética de hacking.
-* Cumplimiento de seguridad en entornos controlados.
-
----
-
-# 🧠 **6. Lecciones aprendidas**
-
-Este proyecto demuestra:
-
-* Cómo funciona la arquitectura modular de un malware.
-* Qué medidas toman los atacantes para evadir defensas.
-* Cómo se comunican con servidores externos.
-* Qué técnicas usan (persistencia, migración, propagación…).
-* Cómo defender, detectar y responder.
-
----
-
-# 📦 **7. Conclusión**
-
-Este proyecto es una herramienta completa para aprender conceptos clave de ciberseguridad ofensiva y defensiva, sin poner en riesgo ningún sistema.
-Su diseño modular, la documentación, las pruebas unitarias y el C2 permiten estudiar el ciclo de vida de un malware, desde su ejecución hasta su control y su apagado seguro.
+This project serves as a comprehensive tool for understanding the modular architecture of modern threats. By building each stage of the lifecycle—from initial access to C2 coordination—I have gained a deep understanding of adversarial behavior and the defensive layers required to mitigate them.
